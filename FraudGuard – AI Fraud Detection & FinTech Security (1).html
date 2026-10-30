@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>FraudGuard – AI Fraud Detection & FinTech Security</title>
+<style>
+:root{--bg:#eef2ff;--bgimg:linear-gradient(135deg,#e3ecff 0%,#f3e8ff 50%,#e2faf0 100%);--card:#fff;--tx:#14202e;--mu:#586578;--bd:#d9e0ee;--ac:#4f46e5;--ok:#0f9d58;--wa:#d97706;--bad:#dc2626;--hd:linear-gradient(90deg,#1e1b4b,#3730a3 60%,#0e7490);--s1:#e0e7ff;--s2:#fef3c7;--s3:#fee2e2;--s4:#d1fae5;--fix:#ecfdf5;--fixb:#10b981;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b1020;--bgimg:linear-gradient(135deg,#0b1020 0%,#1a1033 50%,#08262b 100%);--card:#151b2e;--tx:#e8edf8;--mu:#9aa6bd;--bd:#2a3350;--ac:#818cf8;--ok:#34d399;--wa:#fbbf24;--bad:#f87171;--s1:#1e2547;--s2:#3a2f0f;--s3:#3d1518;--s4:#0d3326;--fix:#0d3326;--fixb:#34d399}}
+:root[data-theme="dark"]{--bg:#0b1020;--bgimg:linear-gradient(135deg,#0b1020 0%,#1a1033 50%,#08262b 100%);--card:#151b2e;--tx:#e8edf8;--mu:#9aa6bd;--bd:#2a3350;--ac:#818cf8;--ok:#34d399;--wa:#fbbf24;--bad:#f87171;--s1:#1e2547;--s2:#3a2f0f;--s3:#3d1518;--s4:#0d3326;--fix:#0d3326;--fixb:#34d399}
+*{box-sizing:border-box}html,body{min-height:100%}body{margin:0;background:var(--bg);background-image:var(--bgimg);background-attachment:fixed;color:var(--tx);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+header{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;padding:14px 20px;background:var(--hd);color:#fff}
+h1{font-size:18px;margin:0}h1 span{color:#67e8f9}.sub{color:#c7d2fe;font-size:12px}
+nav{display:flex;gap:6px;flex-wrap:wrap}nav button{border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;padding:8px 14px;border-radius:8px;cursor:pointer;font:inherit}
+nav button.on{background:#fff;color:#3730a3;font-weight:600}
+.btn{border:1px solid var(--bd);background:var(--card);color:var(--tx);padding:8px 14px;border-radius:8px;cursor:pointer;font:inherit}.btn.pri{background:var(--ac);color:#fff;border-color:var(--ac)}
+main{max-width:1000px;margin:0 auto;padding:20px}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(190px,1fr))}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:16px;box-shadow:0 2px 8px rgba(30,27,75,.06)}
+.stat b{display:block;font-size:26px}.stat span{color:var(--mu);font-size:13px}
+.grid .stat:nth-child(1){background:var(--s1);border-left:5px solid var(--ac)}.grid .stat:nth-child(2){background:var(--s2);border-left:5px solid var(--wa)}.grid .stat:nth-child(3){background:var(--s3);border-left:5px solid var(--bad)}.grid .stat:nth-child(4){background:var(--s4);border-left:5px solid var(--ok)}
+.fix{background:var(--fix);border:1px solid var(--fixb);border-left:5px solid var(--fixb);border-radius:10px;padding:10px 14px;margin-top:10px}
+.fix b{color:var(--ok)}
+h2{font-size:16px;margin:22px 0 10px}
+label{display:block;font-size:13px;color:var(--mu);margin-bottom:10px}
+input,select{width:100%;padding:9px;border:1px solid var(--bd);border-radius:8px;background:var(--bg);color:var(--tx);font:inherit;margin-top:4px}
+.scroll{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--bd);white-space:nowrap}th{color:var(--mu);font-weight:600;background:var(--s1)}
+.tag{padding:2px 9px;border-radius:99px;font-size:12px;font-weight:600;border:1px solid currentColor}
+.approve{color:var(--ok)}.verify{color:var(--wa)}.block{color:var(--bad)}
+.meter{height:10px;border-radius:6px;background:var(--bd);overflow:hidden;margin:8px 0}.meter i{display:block;height:100%}
+.bars{display:flex;align-items:flex-end;gap:10px;height:110px}.bars div{flex:1;text-align:center;font-size:12px;color:var(--mu)}.bars i{display:block;border-radius:6px 6px 0 0;margin-bottom:4px}
+.row{display:flex;gap:10px;flex-wrap:wrap}.row>*{flex:1;min-width:140px}
+li{margin:3px 0}.note{font-size:12px;color:var(--mu)}
+.login{max-width:400px;margin:30px auto}.login h2{margin-top:0}
+.seg{display:flex;gap:6px;margin-bottom:14px}.seg button{flex:1}
+.err{color:var(--bad);font-size:13px;min-height:20px}.okm{color:var(--ok);font-size:13px}
+#usr{display:flex;gap:8px;align-items:center;font-size:13px;color:#e0e7ff}#usr .btn{padding:5px 12px;background:rgba(255,255,255,.12);color:#fff;border-color:rgba(255,255,255,.35)}
+.hint{background:var(--s1);border-radius:8px;padding:8px 12px;font-size:12px;color:var(--mu);margin-top:12px}
+</style></head><body>
+<header><div><h1>Fraud<span>Guard</span></h1><div class="sub">AI-based Fraud Detection &amp; FinTech Security</div></div>
+<nav id="nav"></nav><div id="usr"></div></header>
+<main id="app"></main>
+<script>
+const PROFILE={name:"Demo customer",avg:2500,home:"Hyderabad",device:"Pixel-7"};
+const CATS={Groceries:0,Utilities:0,Travel:5,Electronics:8,"Money Transfer":12,"Gift Cards":15,Crypto:18};
+const CITIES=["Hyderabad","Mumbai","Delhi","Dubai","Lagos","London"];
+const INTL=["Dubai","Lagos","London"];
+let tx=[],tab="dash",last=null;
+function save(){try{localStorage.setItem("fg_tx2",JSON.stringify(tx))}catch(e){}}
+function load(){try{const s=localStorage.getItem("fg_tx2");if(s)tx=JSON.parse(s)}catch(e){}
+ if(!tx.length){const n=Date.now(),h=36e5;tx=[
+ mk(1800,"Groceries","Hyderabad",1,14,n-30*h),mk(950,"Utilities","Hyderabad",1,10,n-26*h),
+ mk(64000,"Crypto","Lagos",0,3,n-5*h),mk(3200,"Travel","Mumbai",1,19,n-3*h)];save()}}
+function mk(a,c,city,known,hr,t){const r=score({amount:a,cat:c,city,known,hour:hr,recent:0});
+ return {id:Math.random().toString(36).slice(2,8).toUpperCase(),t,amount:a,cat:c,city,known,hour:hr,risk:r.risk,why:r.why,fix:r.fix,decision:r.decision,status:r.decision==="approve"?"Closed":"Open"}}
+/* Risk scoring + behavioural analysis (explainable factors) */
+function score(x){let risk=0,why=[],fix=[];const add=(p,m,f)=>{if(p>0){risk+=p;why.push(`+${p} ${m}`);if(f&&!fix.includes(f))fix.push(f)}};
+ const r=x.amount/PROFILE.avg;
+ const fa="Confirm the amount with the customer by OTP and apply a per-transaction limit until verified";
+ if(r>10)add(35,`amount is ${r.toFixed(0)}× the customer's usual spend`,fa);else if(r>5)add(25,`amount is ${r.toFixed(1)}× usual spend`,fa);else if(r>2.5)add(12,`amount is ${r.toFixed(1)}× usual spend`,fa);
+ if(x.hour<6)add(15,"unusual night-time activity","Hold the payment until the customer confirms it; enable night-time transaction limits");
+ if(!x.known)add(20,"unrecognised device fingerprint","Require biometric/OTP verification; trust the new device only after it passes");
+ if(INTL.includes(x.city))add(20,`international location (${x.city})`,"Call or notify the customer to confirm travel; allow international use only after verification");else if(x.city!==PROFILE.home)add(10,`outside home city (${x.city})`,"Send a location-confirmation push notification to the customer's registered phone");
+ if(x.recent>=3)add(20,`${x.recent} transactions in the last 10 minutes (velocity)`,"Throttle repeat payments and pause further transactions for 10 minutes");else if(x.recent===2)add(10,"rapid repeat transactions","Throttle repeat payments and pause further transactions for 10 minutes");
+ add(CATS[x.cat]||0,`higher-risk merchant category (${x.cat})`,"Apply extra screening for this merchant category and cap the amount until verified");
+ risk=Math.min(100,risk);if(!why.length)why.push("Matches the customer's normal behaviour");
+ const decision=risk>=70?"block":risk>=35?"verify":"approve";
+ if(decision==="block")fix.unshift("Block the transaction, temporarily freeze the card/account, contact the customer and alert the security team");
+ else if(decision==="verify")fix.unshift("Hold the payment and require step-up MFA (OTP or biometric) before release");
+ else fix=["No action needed – transaction released and logged"];
+ return {risk,why,fix,decision}}
+const col=d=>d==="approve"?"var(--ok)":d==="verify"?"var(--wa)":"var(--bad)";
+const inr=n=>"₹"+Number(n).toLocaleString("en-IN");
+const fixBox=t=>`<div class="fix"><b>Recommended solution</b><ul>${(t.fix||[]).map(w=>`<li>${w}</li>`).join("")}</ul></div>`;
+const tg=d=>`<span class="tag ${d}">${d==="approve"?"Approved":d==="verify"?"MFA required":"Blocked"}</span>`;
+function tabsFor(){return me.role==="admin"?[["dash","Dashboard"],["new","New transaction"],["alerts","Alerts"],["log","Transactions"]]:[["new","New transaction"],["log","My transactions"]]}
+function nav(){const n=document.getElementById("nav"),u=document.getElementById("usr");
+ if(!me){n.innerHTML="";u.innerHTML="";return}
+ n.innerHTML=tabsFor().map(([k,l])=>`<button class="${tab===k?"on":""}" onclick="go('${k}')">${l}</button>`).join("");
+ u.innerHTML=`<span>${me.u} · ${me.role}</span><button class="btn" onclick="logout()">Log out</button>`}
+function go(t){tab=t;render()}
+function render(){nav();const a=document.getElementById("app");
+ if(!me){a.innerHTML=loginView();return}
+ if(!tabsFor().some(t=>t[0]===tab))tab=tabsFor()[0][0];
+ a.innerHTML=({dash,new:newTx,alerts,log})[tab]()}
+/* Authentication (demo: client-side, SHA-256 hashed passwords, lockout after 3 failures) */
+let users=[],me=null,authMode="in",authMsg="",authOk="",fails=0,lockUntil=0;
+async function hp(p){try{const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode("fg:"+p));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("")}catch(e){return"p:"+btoa(unescape(encodeURIComponent(p)))}}
+function saveU(){try{localStorage.setItem("fg_users",JSON.stringify(users))}catch(e){}}
+async function loadUsers(){try{const s=localStorage.getItem("fg_users");if(s)users=JSON.parse(s)}catch(e){}
+ if(!users.length){users=[{u:"admin",role:"admin",p:await hp("admin123")},{u:"customer",role:"customer",p:await hp("customer123")}];saveU()}}
+function loginView(){const reg=authMode==="up";
+ return `<div class="card login"><div class="seg"><button class="btn ${!reg?"pri":""}" onclick="authMode='in';authMsg='';authOk='';render()">Sign in</button><button class="btn ${reg?"pri":""}" onclick="authMode='up';authMsg='';authOk='';render()">Create account</button></div>
+ <h2>${reg?"Create a customer account":"Welcome back"}</h2>
+ <label>Username<input id="lu" autocomplete="username" maxlength="20"></label>
+ <label>Password<input id="lp" type="password" autocomplete="${reg?"new-password":"current-password"}" onkeydown="if(event.key==='Enter')doAuth()"></label>
+ ${reg?'<label>Confirm password<input id="lp2" type="password" autocomplete="new-password" onkeydown="if(event.key===\'Enter\')doAuth()"></label>':""}
+ <div class="err">${authMsg}</div><div class="okm">${authOk}</div>
+ <button class="btn pri" style="width:100%" onclick="doAuth()">${reg?"Create account":"Sign in"}</button>
+ ${reg?"":'<div class="hint"><b>Demo accounts</b><br>Admin: <code>admin</code> / <code>admin123</code> (dashboard, alerts, all transactions)<br>Customer: <code>customer</code> / <code>customer123</code> (own transactions only)</div>'}</div>`}
+async function doAuth(){const u=document.getElementById("lu").value.trim().toLowerCase(),p=document.getElementById("lp").value;authMsg="";authOk="";
+ if(authMode==="up"){const p2=document.getElementById("lp2").value;
+  if(!/^[a-z0-9_]{3,20}$/.test(u))authMsg="Username: 3–20 letters, numbers or underscores.";
+  else if(p.length<6)authMsg="Password must be at least 6 characters.";
+  else if(p!==p2)authMsg="Passwords do not match.";
+  else if(users.some(x=>x.u===u))authMsg="That username is taken.";
+  else{users.push({u,role:"customer",p:await hp(p)});saveU();authMode="in";authOk="Account created. Please sign in."}
+  return render()}
+ if(Date.now()<lockUntil){authMsg=`Too many failed attempts. Try again in ${Math.ceil((lockUntil-Date.now())/1000)}s.`;return render()}
+ const h=await hp(p),acc=users.find(x=>x.u===u&&x.p===h);
+ if(!acc){fails++;if(fails>=3){lockUntil=Date.now()+3e4;fails=0;authMsg="Too many failed attempts. Locked for 30 seconds."}else authMsg=`Invalid username or password (${3-fails} attempt${3-fails===1?"":"s"} left).`;return render()}
+ fails=0;me={u:acc.u,role:acc.role};try{sessionStorage.setItem("fg_me",JSON.stringify(me))}catch(e){}tab=me.role==="admin"?"dash":"new";render()}
+function logout(){me=null;last=null;try{sessionStorage.removeItem("fg_me")}catch(e){}authMode="in";render()}
+function dash(){const n=tx.length,b=tx.filter(t=>t.decision==="block").length,v=tx.filter(t=>t.decision==="verify").length,o=tx.filter(t=>t.status==="Open").length;
+ const saved=tx.filter(t=>t.decision==="block").reduce((s,t)=>s+t.amount,0);
+ const bk=[["Low (0–34)",tx.filter(t=>t.risk<35).length,"var(--ok)"],["Medium (35–69)",tx.filter(t=>t.risk>=35&&t.risk<70).length,"var(--wa)"],["High (70+)",tx.filter(t=>t.risk>=70).length,"var(--bad)"]];
+ const mx=Math.max(1,...bk.map(x=>x[1]));
+ return `<div class="grid"><div class="card stat"><b>${n}</b><span>Transactions monitored</span></div><div class="card stat"><b>${v+b}</b><span>Flagged (${b} blocked)</span></div><div class="card stat"><b>${o}</b><span>Open alerts</span></div><div class="card stat"><b>${inr(saved)}</b><span>Potential loss prevented</span></div></div>
+ <h2>Risk distribution</h2><div class="card"><div class="bars">${bk.map(x=>`<div><i style="height:${x[1]/mx*80+4}px;background:${x[2]}"></i>${x[1]}<br>${x[0]}</div>`).join("")}</div></div>
+ <h2>How it works</h2><div class="card"><ol><li><b>Collect</b> – amount, time, location, device, history</li><li><b>Preprocess</b> – validate and normalise the data</li><li><b>Behavioural analysis</b> – compare with the customer's profile (avg spend ${inr(PROFILE.avg)}, home ${PROFILE.home}, trusted device)</li><li><b>Risk score 0–100</b> – approve (&lt;35), step-up MFA (35–69), block (70+)</li><li><b>Alert &amp; log</b> – store result, notify admin, support review</li></ol>
+ <p class="note">Demo uses a transparent rule-based scorer in place of a trained Random Forest/XGBoost model, so every decision is explainable. Data stays in this browser.</p></div>
+ <p><button class="btn" onclick="if(confirm('Reset demo data?')){tx=[];try{localStorage.removeItem('fg_tx2')}catch(e){}load();render()}">Reset demo data</button></p>`}
+function newTx(){return `<div class="card"><div class="row"><label>Amount (₹)<input id="amt" type="number" min="1" value="2000"></label>
+ <label>Merchant category<select id="cat">${Object.keys(CATS).map(c=>`<option>${c}</option>`).join("")}</select></label>
+ <label>Location<select id="city">${CITIES.map(c=>`<option>${c}</option>`).join("")}</select></label></div>
+ <div class="row"><label>Device<select id="dev"><option value="1">Trusted device (${PROFILE.device})</option><option value="0">New / unrecognised device</option></select></label>
+ <label>Hour of day (0–23)<input id="hr" type="number" min="0" max="23" value="${new Date().getHours()}"></label></div>
+ <button class="btn pri" onclick="submit()">Analyse &amp; submit</button></div><div id="res"></div>`}
+function submit(){const g=i=>document.getElementById(i).value;const amount=+g("amt");const hour=+g("hr");
+ if(!(amount>0)||!(hour>=0&&hour<=23)){document.getElementById("res").innerHTML='<p class="block">Enter a valid amount and an hour between 0 and 23.</p>';return}
+ const recent=tx.filter(t=>Date.now()-t.t<6e5).length;
+ const r=score({amount,cat:g("cat"),city:g("city"),known:+g("dev"),hour,recent});
+ last={user:me.u,id:Math.random().toString(36).slice(2,8).toUpperCase(),t:Date.now(),amount,cat:g("cat"),city:g("city"),known:+g("dev"),hour,risk:r.risk,why:r.why,fix:r.fix,decision:r.decision,status:r.decision==="approve"?"Closed":"Open"};
+ tx.unshift(last);save();showRes()}
+function showRes(){const t=last;let extra="";
+ if(t.decision==="verify"&&!t.mfa)extra=`<p>Step-up verification needed. Simulate the customer's response:</p><button class="btn pri" onclick="mfa(1)">MFA passed (OTP / biometric)</button> <button class="btn" onclick="mfa(0)">MFA failed</button>`;
+ document.getElementById("res").innerHTML=`<h2>Result ${tg(t.decision)}</h2><div class="card"><b>Risk score: ${t.risk}/100</b><div class="meter"><i style="width:${t.risk}%;background:${col(t.decision)}"></i></div>
+ <b>Why this decision</b><ul>${t.why.map(w=>`<li>${w}</li>`).join("")}</ul>${fixBox(t)}${extra}</div>`;render2()}
+function render2(){nav()}
+function mfa(ok){last.mfa=1;if(ok){last.decision="approve";last.status="Closed";last.why.push("MFA verified – transaction released");last.fix=["Customer verified – transaction released; keep monitoring this device and location"]}else{last.decision="block";last.status="Open";last.why.push("MFA failed – transaction blocked");last.fix=["MFA failed: keep the transaction blocked, lock the account for review and alert the customer on a trusted channel","Ask the customer to reset credentials and re-register their device"]}save();showRes()}
+function setStatus(id,s){const t=tx.find(x=>x.id===id);t.status=s;save();render()}
+function alerts(){const l=tx.filter(t=>t.decision!=="approve");
+ return `<h2>Alerts &amp; admin review</h2>`+(l.length?l.map(t=>`<div class="card" style="margin-bottom:12px"><div class="row" style="align-items:center"><div><b>${inr(t.amount)}</b> · ${t.cat} · ${t.city}<br><span class="note">ID ${t.id} · ${new Date(t.t).toLocaleString()}</span></div><div>${tg(t.decision)} Risk ${t.risk}</div><div><b>${t.status}</b></div></div>
+ <ul>${t.why.map(w=>`<li>${w}</li>`).join("")}</ul>${fixBox(t)}
+ ${t.status==="Open"?`<button class="btn" onclick="setStatus('${t.id}','Resolved – legitimate')">Mark legitimate</button> <button class="btn" onclick="setStatus('${t.id}','Confirmed fraud')">Confirm fraud</button>`:""}</div>`).join(""):`<p class="note">No alerts.</p>`)}
+function log(){const L=me.role==="admin"?tx:tx.filter(t=>(t.user||"customer")===me.u);return `<h2>${me.role==="admin"?"All transactions":"My transactions"}</h2><div class="card scroll"><table><tr><th>ID</th><th>Time</th><th>Amount</th><th>Category</th><th>City</th><th>Risk</th><th>Decision</th></tr>${L.map(t=>`<tr><td>${t.id}</td><td>${new Date(t.t).toLocaleString()}</td><td>${inr(t.amount)}</td><td>${t.cat}</td><td>${t.city}</td><td>${t.risk}</td><td>${tg(t.decision)}</td></tr>`).join("")}</table></div>`}
+(async()=>{load();await loadUsers();try{const m=sessionStorage.getItem("fg_me");if(m){const o=JSON.parse(m);if(users.some(x=>x.u===o.u))me=o}}catch(e){}
+ if(me)tab=me.role==="admin"?"dash":"new";render()})();
+</script></body></html>
